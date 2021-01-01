@@ -1,9 +1,9 @@
 from django.db import models
-
+from django import forms
 class DaneKontaktowe(models.Model):
-    numer_telefonu = models.IntegerField(null=False)
-    adres_mailowy = models.CharField(max_length=45, null=False)
-    fax = models.IntegerField(null=True)
+    numer_telefonu = models.CharField(max_length=9, null=False)
+    adres_mailowy = models.EmailField(max_length=45, null=False)
+    fax = models.CharField(max_length=7, null=True)
 
 
 class AdresDostawy(models.Model):
@@ -15,8 +15,8 @@ class AdresDostawy(models.Model):
 
 
 class Klienci(models.Model):
-    imie = models.IntegerField(null=False)
-    nazwisko = models.IntegerField(null=False)
+    imie = models.CharField(max_length=45, null=False)
+    nazwisko = models.CharField(max_length=45, null=False)
     dane_kontaktowe_id = models.ForeignKey(DaneKontaktowe, on_delete=models.CASCADE)
     adres_dostawy_id = models.ForeignKey(AdresDostawy, on_delete=models.CASCADE)
 
@@ -42,7 +42,7 @@ class StatusDostawcy(models.Model):
     data_zatrudnienia = models.DateField(null=False)
     data_zwolnienia = models.DateField(null=True)
     koniec_umowy = models.DateField(null=False)
-    dostepnosc_dostawcy = models.BooleanField(null=False)
+    dostepnosc_dostawcy = models.BooleanField()
 
 
 class Dostawcy(models.Model):
@@ -57,13 +57,14 @@ class Dostawcy(models.Model):
 
 
 class DanePlatnosci(models.Model):
-    id_klienta = models.ForeignKey(Klienci, on_delete=models.CASCADE)
+    id_klient = models.ForeignKey(Klienci, on_delete=models.CASCADE)
     data_platnosci = models.DateField(null=False)
     metoda_platnosci = models.CharField(max_length=15, null=False)
     status_platnosci = models.CharField(max_length=15, null=False)
 
 
 class Zamowienia(models.Model):
+    klient_id = models.ForeignKey(Klienci, on_delete=models.CASCADE)
     dostawcy_id = models.ForeignKey(Dostawcy, on_delete=models.CASCADE)
     dane_platnosci_id = models.ForeignKey(DanePlatnosci, on_delete=models.CASCADE)
     status_zamowienia = models.BooleanField(null=False)
@@ -74,11 +75,16 @@ class Restouracje(models.Model):
     numer_telefonu = models.IntegerField(null=False)
     nip = models.IntegerField(null=False)
 
+PRODUKTY_CHOICES = (
+    ('pizza', 'pizza'),
+    ('hamburger', 'hamburger'),
+    ('kebab', 'kebab'),
+)
 
 class Produkty(models.Model):
-    typ_produktu = models.CharField(max_length=15, null=False)
+    typ_produktu = models.CharField(max_length=10, choices=PRODUKTY_CHOICES, null=False)
     nazwa_produktu = models.CharField(max_length=45, null=False)
-    cena = models.IntegerField(null=False)
+    cena = models.DecimalField(max_digits=14, decimal_places=2)
     nazwa_produktu = models.CharField(max_length=300, null=False)
     restouracja_id = models.ForeignKey(Restouracje, on_delete=models.CASCADE)
 
