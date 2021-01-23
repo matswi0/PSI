@@ -5,6 +5,9 @@ class DaneKontaktowe(models.Model):
     adres_mailowy = models.EmailField(max_length=45, null=False)
     fax = models.CharField(max_length=7, null=True)
 
+    def __str__(self):
+        return self.numer_telefonu
+
 
 class AdresDostawy(models.Model):
     miejscowosc = models.CharField(max_length=45, null=False)
@@ -12,6 +15,9 @@ class AdresDostawy(models.Model):
     ulica = models.CharField(max_length=45, null=True)
     numer_domu = models.IntegerField(null=False)
     numer_lokalu = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.miejscowosc + ' ' +self.ulica + ' ' +str(self.numer_domu) + ' \ ' + str(self.numer_lokalu)
 
 
 class Klienci(models.Model):

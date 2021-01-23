@@ -112,7 +112,7 @@ class StatusDostawcyFilter(FilterSet):
     dostepnosc = AllValuesFilter(field_name='dostepnosc_dostawcy')
     class Meta:
         model = StatusDostawcy
-        fields = ['dostepnosc']
+        fields = ['dostepnosc_dostawcy']
 
 class StatusDostawcyList(generics.ListCreateAPIView):
     queryset = StatusDostawcy.objects.all()

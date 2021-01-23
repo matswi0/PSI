@@ -9,13 +9,15 @@ class DaneKontaktoweSerializer(serializers.ModelSerializer):
 
 
 class AdresDostawySerializer(serializers.HyperlinkedModelSerializer):
+    klienci = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='klienci-detail')
     class Meta:
         model = AdresDostawy
         fields = '__all__'
 
 
 class KlienciSerializer(serializers.HyperlinkedModelSerializer):
-    #adresy_dostawy = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='adresdostawy-detail')
+    adres_dostawy_id  =serializers.SlugRelatedField(queryset=AdresDostawy.objects.all(), slug_field='miejscowosc')
+    dane_kontaktowe_id = serializers.SlugRelatedField(queryset=DaneKontaktowe.objects.all(), slug_field='numer_telefonu')
     class Meta:
         model = Klienci
         fields = '__all__'
