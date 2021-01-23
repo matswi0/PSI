@@ -9,8 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Zarobki, StatusDostawcy, Dostawcy, DanePlatnosci, Zamowienia, Restouracje, Produkty, AdresyRestouracji
 from .serializers import DaneKontaktoweSerializer, AdresDostawySerializer, KlienciSerializer, AdresyZamieszkaniaSerializer, ZarobkiSerializer, StatusDostawcySerializer, DostawcySerializer, DanePlatnosciSerializer, ZamowieniaSerializer, RestouracjeSerializer, ProduktySerializer, AdresyRestouracjiSerializer
-from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet, BooleanFilter
-
+from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet
 
 
 
@@ -110,8 +109,7 @@ class ZarobkiDetail(generics.RetrieveUpdateDestroyAPIView):
 # StatusDostawcyView
 
 class StatusDostawcyFilter(FilterSet):
-    dostepnosc = BooleanFilter(field_name='dostepnosc_dostawcy', lookup_expr='iexact')
-
+    dostepnosc = AllValuesFilter(field_name='dostepnosc_dostawcy')
     class Meta:
         model = StatusDostawcy
         fields = ['dostepnosc']
@@ -121,6 +119,7 @@ class StatusDostawcyList(generics.ListCreateAPIView):
     serializer_class = StatusDostawcySerializer
     name = 'statusdostawcy-list'
     filter_class = StatusDostawcyFilter
+    ordering_fields = ['data_zatrudnienia', 'data_zwolnienia']
 
 
 class StatusDostawcyDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -143,10 +142,20 @@ class DostawcyDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # DanePlatnosciView
+class DanePlatnosciFilter(FilterSet):
+    od_data = DateTimeFilter(field_name='data_platnosci', lookup_expr='gte')
+    do_data = DateTimeFilter(field_name='data_platnosci', lookup_expr='lte')
+
+    class Meta:
+        model = DanePlatnosci
+        fields = ['od_data', 'do_data']
+
 class DanePlatnosciList(generics.ListCreateAPIView):
     queryset = DanePlatnosci.objects.all()
     serializer_class = DanePlatnosciSerializer
     name = 'daneplatnosci-list'
+    filter_class = DanePlatnosciFilter
+
 
 
 class DanePlatnosciDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -173,6 +182,9 @@ class RestouracjeList(generics.ListCreateAPIView):
     queryset = Restouracje.objects.all()
     serializer_class = RestouracjeSerializer
     name = 'restouracje-list'
+    filterset_fields = ['nazwa_restouracji']
+    search_fields = ['nazwa_restouracji']
+    ordering_fields = ['nazwa_restouracji']
 
 
 class RestouracjeDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -182,10 +194,20 @@ class RestouracjeDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # ProduktyView
+class ProduktyFilter(FilterSet):
+    od_cena = NumberFilter(field_name='cena', lookup_expr='gte')
+    do_cena = NumberFilter(field_name='cena', lookup_expr='lte')
+
+    class Meta:
+        model = Produkty
+        fields = ['od_cena', 'do_cena']
+
+
 class ProduktyList(generics.ListCreateAPIView):
     queryset = Produkty.objects.all()
     serializer_class = ProduktySerializer
     name = 'produkty-list'
+    filter_class = ProduktyFilter
 
 
 class ProduktyDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -195,16 +217,27 @@ class ProduktyDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # AdresyRestouracjiView
+class AdresyRestouracjiFilter(FilterSet):
+    nazwa_miej = AllValuesFilter(field_name='miejscowosc')
+
+    class Meta:
+        model = AdresyRestouracji
+        fields = ['nazwa_miej']
+
 class AdresyRestouracjiList(generics.ListCreateAPIView):
     queryset = AdresyRestouracji.objects.all()
     serializer_class = AdresyRestouracjiSerializer
     name = 'adresyrestouracji-list'
+    filter_class = AdresyRestouracjiFilter
 
 
 class AdresyRestouracjiDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AdresyRestouracji.objects.all()
     serializer_class = AdresyRestouracjiSerializer
     name = 'adresyrestouracji-detail'
+    filterset_fields = ['miejscowosc', 'ulica']
+    search_fields = ['miejscowosc', 'ulica']
+    ordering_fields = ['miejscowosc', 'ulica']
 
 
 class ApiRoot(generics.GenericAPIView):

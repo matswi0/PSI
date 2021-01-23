@@ -98,11 +98,10 @@ class Restouracje(models.Model):
 
 
 class Produkty(models.Model):
-    PRODUKTY = (('PIZZA', 'pizza'), ('BURGER', 'burger'), ('KEBAB', 'kebab'), ('SUSHI', 'sushi'),)
-    typ_produktu = models.CharField(max_length=10, choices=PRODUKTY, null=False)
+    PRODUKTY_CHOICES = (('PIZZA', 'pizza'), ('BURGER', 'burger'), ('KEBAB', 'kebab'), ('SUSHI', 'sushi'),)
+    typ_produktu = models.CharField(max_length=10, choices=PRODUKTY_CHOICES, null=False)
     nazwa_produktu = models.CharField(max_length=45, null=False)
     cena = models.DecimalField(max_digits=14, decimal_places=2)
-    nazwa_produktu = models.CharField(max_length=45, null=False)
     restouracja_id = models.ForeignKey(Restouracje, related_name='produkty', on_delete=models.CASCADE)
 
 
