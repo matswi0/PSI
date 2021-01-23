@@ -5,51 +5,57 @@ from . import views
 
 urlpatterns = [
     # DaneKontaktoweURL
-    path('dane_kontaktowe/', views.DaneKontaktoweList.as_view()),
-    path('dane_kontaktowe/<int:pk>/', views.DaneKontaktoweDetail.as_view()),
+    path('danekontaktowe-list', views.DaneKontaktoweList.as_view(), name=views.DaneKontaktoweList.name),
+    path('danekontaktowe-detail/<int:pk>', views.DaneKontaktoweDetail.as_view(), name=views.DaneKontaktoweDetail.name),
 
     # AdresDostawyURL
-    path('adres_dostawy/', views.AdresDostawyList.as_view()),
-    path('adres_dostawy/<int:pk>/', views.AdresDostawyDetail.as_view()),
+    path('adresdostawy-list', views.AdresDostawyList.as_view(), name=views.AdresDostawyList.name),
+    path('adresdostawy-detail/<int:pk>', views.AdresDostawyDetail.as_view(), name=views.AdresDostawyDetail.name),
 
     # KlienciURL
-    path('klienci/', views.KlienciList.as_view()),
-    path('klienci/<int:pk>/', views.KlienciDetail.as_view()),
+    path('klienci-list', views.KlienciList.as_view(), name=views.KlienciList.name),
+    path('klienci-detail/<int:pk>', views.KlienciDetail.as_view(), name=views.KlienciDetail.name),
 
     # AdresyZamieszkaniaURL
-    path('adresy_zamieszkania/', views.AdresyZamieszkaniaList.as_view()),
-    path('adresy_zamieszkania/<int:pk>/', views.AdresyZamieszkaniaDetail.as_view()),
+    path('adresyzamieszkania-list', views.AdresyZamieszkaniaList.as_view(), name=views.AdresyZamieszkaniaList.name),
+    path('adresyzamieszkania-detail/<int:pk>', views.AdresyZamieszkaniaDetail.as_view(), name=views.AdresyZamieszkaniaDetail.name),
 
     # ZarobkiURL
-    path('zarobki/', views.ZarobkiList.as_view()),
-    path('zarobki/<int:pk>/', views.ZarobkiDetail.as_view()),
+    path('zarobki-list', views.ZarobkiList.as_view(), name=views.ZarobkiList.name),
+    path('zarobki-detail/<int:pk>', views.ZarobkiDetail.as_view(), name=views.ZarobkiDetail.name),
 
     # StatusDostawcyURL
-    path('status_dostawcy/', views.StatusDostawcyList.as_view()),
-    path('status_dostawcy/<int:pk>/', views.StatusDostawcyDetail.as_view()),
+    path('statusdostawcy-list', views.StatusDostawcyList.as_view(), name=views.StatusDostawcyList.name),
+    path('statusdostawcy-detail/<int:pk>', views.StatusDostawcyDetail.as_view(), name=views.StatusDostawcyDetail.name),
 
     # DostawcyURL
-    path('dostawcy/', views.DostawcyList.as_view()),
-    path('dostawcy/<int:pk>/', views.DostawcyDetail.as_view()),
+    path('dostawcy-list', views.DostawcyList.as_view(), name=views.DostawcyList.name),
+    path('dostawcy-detail/<int:pk>', views.DostawcyDetail.as_view(), name=views.DostawcyDetail.name),
 
     # DanePlatnosciURL
-    path('dane_platnosci/', views.DanePlatnosciList.as_view()),
-    path('dane_platnosci/<int:pk>/', views.DanePlatnosciDetail.as_view()),
+    path('daneplatnosci-list', views.DanePlatnosciList.as_view(), name=views.DanePlatnosciList.name),
+    path('daneplatnosci-detail/<int:pk>', views.DanePlatnosciDetail.as_view(), name=views.DanePlatnosciDetail.name),
 
     # ZamowieniaURL
-    path('zamowienia/', views.ZamowieniaList.as_view()),
-    path('zamowienia/<int:pk>/', views.ZamowieniaDetail.as_view()),
+    path('zamowienia-list', views.ZamowieniaList.as_view(), name=views.ZamowieniaList.name),
+    path('zamowienia-detail/<int:pk>', views.ZamowieniaDetail.as_view(), name=views.ZamowieniaDetail.name),
 
     # RestouracjeURL
-    path('restouracje/', views.RestouracjeList.as_view()),
-    path('restouracje/<int:pk>/', views.RestouracjeDetail.as_view()),
+    path('restouracje-list', views.RestouracjeList.as_view(), name=views.RestouracjeList.name),
+    path('restouracje-detail/<int:pk>', views.RestouracjeDetail.as_view(), name=views.RestouracjeDetail.name),
 
     # ProduktyURL
-    path('produkty/', views.ProduktyList.as_view()),
-    path('produkty/<int:pk>/', views.ProduktyDetail.as_view()),
+    path('produkty-list', views.ProduktyList.as_view(), name=views.ProduktyList.name),
+    path('produkty-detail/<int:pk>', views.ProduktyDetail.as_view(), name=views.ProduktyDetail.name),
 
     # AdresyRestouracjiURL
-    path('adresy_restouracji/', views.AdresyRestouracjiList.as_view()),
-    path('adresy_restouracji/<int:pk>/', views.AdresyRestouracjiDetail.as_view()),
+    path('adresyrestouracji-list', views.AdresyRestouracjiList.as_view(), name=views.AdresyRestouracjiList.name),
+    path('adresyrestouracji-detail/<int:pk>', views.AdresyRestouracjiDetail.as_view(), name=views.AdresyRestouracjiDetail.name),
+
+
+
+
+
+    path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
