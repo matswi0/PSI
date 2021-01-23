@@ -17,7 +17,7 @@ class AdresDostawy(models.Model):
     numer_lokalu = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.miejscowosc + ' ' +self.ulica + ' ' +str(self.numer_domu) + ' \ ' + str(self.numer_lokalu)
+        return self.miejscowosc + ' ' +self.ulica + ' ' +str(self.numer_domu) + ' / ' + str(self.numer_lokalu)
 
 
 class Klienci(models.Model):
@@ -41,12 +41,18 @@ class AdresyZamieszkania(models.Model):
     numer_domu = models.IntegerField(null=False)
     numer_lokalu = models.IntegerField(null=True)
 
+    def __str__(self):
+        return self.miejscowosc + ' ' +self.ulica + ' ' +str(self.numer_domu) + ' / ' + str(self.numer_lokalu)
+
 
 class Zarobki(models.Model):
     okres_od = models.DateField(null=False)
     okres_do = models.DateField(null=False)
     przepracowane_godziny = models.IntegerField(null=False)
     stawka_godzinowa = models.IntegerField(null=False)
+
+    def __str__(self):
+        return self.stawka_godzinowa
 
 
 class StatusDostawcy(models.Model):
@@ -57,6 +63,9 @@ class StatusDostawcy(models.Model):
     koniec_umowy = models.DateField(null=False)
     dostepnosc_dostawcy = models.BooleanField()
 
+    def __str__(self):
+        return self.dostepnosc_dostawcy
+
 
 class Dostawcy(models.Model):
     imie = models.CharField(max_length=20, null=False)
@@ -65,7 +74,7 @@ class Dostawcy(models.Model):
     dane_kontaktowe_id = models.ForeignKey(DaneKontaktowe, related_name='dostawcy', on_delete=models.CASCADE)
     adresy_zamieszkania_id = models.ForeignKey(AdresyZamieszkania, related_name='dostawcy', on_delete=models.CASCADE)
     status_dostawcy_id = models.ForeignKey(StatusDostawcy, related_name='dostawcy', on_delete=models.CASCADE)
-    zarobk_id = models.ForeignKey(Zarobki,related_name='dostawcy', on_delete=models.CASCADE)
+    zarobki_id = models.ForeignKey(Zarobki,related_name='dostawcy', on_delete=models.CASCADE)
     class Meta:
         ordering = ('nazwisko',)
 
@@ -91,15 +100,15 @@ class Zamowienia(models.Model):
     status_zamowienia = models.BooleanField(null=False)
 
 
-class Restouracje(models.Model):
-    nazwa_restouracji = models.CharField(max_length=45, null=False)
+class Restauracje(models.Model):
+    nazwa_restauracji = models.CharField(max_length=45, null=False)
     numer_telefonu = models.CharField(max_length=9, null=False)
     nip = models.CharField(max_length=12, null=False)
     class Meta:
-        ordering = ('nazwa_restouracji',)
+        ordering = ('nazwa_restauracji',)
 
     def __str__(self):
-        return self.nazwa_restouracji+' '+self.numer_telefonu
+        return self.nazwa_restauracji+' '+self.numer_telefonu
 
 
 
@@ -108,13 +117,14 @@ class Produkty(models.Model):
     typ_produktu = models.CharField(max_length=10, choices=PRODUKTY_CHOICES, null=False)
     nazwa_produktu = models.CharField(max_length=45, null=False)
     cena = models.DecimalField(max_digits=14, decimal_places=2)
-    restouracja_id = models.ForeignKey(Restouracje, related_name='produkty', on_delete=models.CASCADE)
+    restauracja_id = models.ForeignKey(Restauracje, related_name='produkty', on_delete=models.CASCADE)
 
 
-class AdresyRestouracji(models.Model):
+class AdresyRestauracji(models.Model):
     miejscowosc = models.CharField(max_length=45, null=False)
     kod_pocztowy = models.CharField(max_length=6, null=False)
     ulica = models.CharField(max_length=45, null=True)
     numer_domu = models.IntegerField(null=False)
     numer_lokalu = models.IntegerField(null=True)
-    restouracja_id = models.ForeignKey(Restouracje, related_name='adresy_restouracji', on_delete=models.CASCADE)
+    restauracja_id = models.ForeignKey(Restauracje, related_name='adresy_restauracji', on_delete=models.CASCADE)
+

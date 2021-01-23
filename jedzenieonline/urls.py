@@ -40,17 +40,17 @@ urlpatterns = [
     path('zamowienia-list', views.ZamowieniaList.as_view(), name=views.ZamowieniaList.name),
     path('zamowienia-detail/<int:pk>', views.ZamowieniaDetail.as_view(), name=views.ZamowieniaDetail.name),
 
-    # RestouracjeURL
-    path('restouracje-list', views.RestouracjeList.as_view(), name=views.RestouracjeList.name),
-    path('restouracje-detail/<int:pk>', views.RestouracjeDetail.as_view(), name=views.RestouracjeDetail.name),
+    # RestauracjeURL
+    path('restauracje-list', views.RestauracjeList.as_view(), name=views.RestauracjeList.name),
+    path('restauracje-detail/<int:pk>', views.RestauracjeDetail.as_view(), name=views.RestauracjeDetail.name),
 
     # ProduktyURL
     path('produkty-list', views.ProduktyList.as_view(), name=views.ProduktyList.name),
     path('produkty-detail/<int:pk>', views.ProduktyDetail.as_view(), name=views.ProduktyDetail.name),
 
-    # AdresyRestouracjiURL
-    path('adresyrestouracji-list', views.AdresyRestouracjiList.as_view(), name=views.AdresyRestouracjiList.name),
-    path('adresyrestouracji-detail/<int:pk>', views.AdresyRestouracjiDetail.as_view(), name=views.AdresyRestouracjiDetail.name),
+    # AdresyRestauracjiURL
+    path('adresyrestauracji-list', views.AdresyRestauracjiList.as_view(), name=views.AdresyRestauracjiList.name),
+    path('adresyrestauracji-detail/<int:pk>', views.AdresyRestauracjiDetail.as_view(), name=views.AdresyRestauracjiDetail.name),
 
 
 

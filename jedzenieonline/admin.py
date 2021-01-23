@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import DaneKontaktowe, Klienci, AdresDostawy, AdresyZamieszkania, Zarobki, StatusDostawcy,\
-    Dostawcy, DanePlatnosci, Zamowienia, Restouracje, Produkty, AdresyRestouracji
+    Dostawcy, DanePlatnosci, Zamowienia, Restauracje, Produkty, AdresyRestauracji
 
 
 admin.site.register(DaneKontaktowe)
@@ -12,6 +12,6 @@ admin.site.register(AdresyZamieszkania)
 admin.site.register(Zarobki)
 admin.site.register(StatusDostawcy)
 admin.site.register(Zamowienia)
-admin.site.register(Restouracje)
+admin.site.register(Restauracje)
 admin.site.register(Produkty)
-admin.site.register(AdresyRestouracji)
+admin.site.register(AdresyRestauracji)

@@ -7,8 +7,8 @@ from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Zarobki, StatusDostawcy, Dostawcy, DanePlatnosci, Zamowienia, Restouracje, Produkty, AdresyRestouracji
-from .serializers import DaneKontaktoweSerializer, AdresDostawySerializer, KlienciSerializer, AdresyZamieszkaniaSerializer, ZarobkiSerializer, StatusDostawcySerializer, DostawcySerializer, DanePlatnosciSerializer, ZamowieniaSerializer, RestouracjeSerializer, ProduktySerializer, AdresyRestouracjiSerializer
+from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Zarobki, StatusDostawcy, Dostawcy, DanePlatnosci, Zamowienia, Restauracje, Produkty, AdresyRestauracji
+from .serializers import DaneKontaktoweSerializer, AdresDostawySerializer, KlienciSerializer, AdresyZamieszkaniaSerializer, ZarobkiSerializer, StatusDostawcySerializer, DostawcySerializer, DanePlatnosciSerializer, ZamowieniaSerializer, RestauracjeSerializer, ProduktySerializer, AdresyRestauracjiSerializer
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet
 
 
@@ -177,20 +177,20 @@ class ZamowieniaDetail(generics.RetrieveUpdateDestroyAPIView):
     name = 'zamowienia-detail'
 
 
-# RestouracjeView
-class RestouracjeList(generics.ListCreateAPIView):
-    queryset = Restouracje.objects.all()
-    serializer_class = RestouracjeSerializer
-    name = 'restouracje-list'
-    filterset_fields = ['nazwa_restouracji']
-    search_fields = ['nazwa_restouracji']
-    ordering_fields = ['nazwa_restouracji']
+# RestauracjeView
+class RestauracjeList(generics.ListCreateAPIView):
+    queryset = Restauracje.objects.all()
+    serializer_class = RestauracjeSerializer
+    name = 'restauracje-list'
+    filterset_fields = ['nazwa_restauracji']
+    search_fields = ['nazwa_restauracji']
+    ordering_fields = ['nazwa_restauracji']
 
 
-class RestouracjeDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Restouracje.objects.all()
-    serializer_class = RestouracjeSerializer
-    name = 'restouracje-detail'
+class RestauracjeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Restauracje.objects.all()
+    serializer_class = RestauracjeSerializer
+    name = 'restauracje-detail'
 
 
 # ProduktyView
@@ -216,25 +216,25 @@ class ProduktyDetail(generics.RetrieveUpdateDestroyAPIView):
     name = 'produkty-detail'
 
 
-# AdresyRestouracjiView
-class AdresyRestouracjiFilter(FilterSet):
+# AdresyRestauracjiView
+class AdresyRestauracjiFilter(FilterSet):
     nazwa_miej = AllValuesFilter(field_name='miejscowosc')
 
     class Meta:
-        model = AdresyRestouracji
+        model = AdresyRestauracji
         fields = ['nazwa_miej']
 
-class AdresyRestouracjiList(generics.ListCreateAPIView):
-    queryset = AdresyRestouracji.objects.all()
-    serializer_class = AdresyRestouracjiSerializer
-    name = 'adresyrestouracji-list'
-    filter_class = AdresyRestouracjiFilter
+class AdresyRestauracjiList(generics.ListCreateAPIView):
+    queryset = AdresyRestauracji.objects.all()
+    serializer_class = AdresyRestauracjiSerializer
+    name = 'adresyrestauracji-list'
+    filter_class = AdresyRestauracjiFilter
 
 
-class AdresyRestouracjiDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = AdresyRestouracji.objects.all()
-    serializer_class = AdresyRestouracjiSerializer
-    name = 'adresyrestouracji-detail'
+class AdresyRestauracjiDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AdresyRestauracji.objects.all()
+    serializer_class = AdresyRestauracjiSerializer
+    name = 'adresyrestauracji-detail'
     filterset_fields = ['miejscowosc', 'ulica']
     search_fields = ['miejscowosc', 'ulica']
     ordering_fields = ['miejscowosc', 'ulica']
@@ -252,9 +252,9 @@ class ApiRoot(generics.GenericAPIView):
                          'dostawcy-list': reverse(DostawcyList.name, request=request),
                          'daneplatnosci-list': reverse(DanePlatnosciList.name, request=request),
                          'zamowienia-list': reverse(ZamowieniaList.name, request=request),
-                         'restouracje-list': reverse(RestouracjeList.name, request=request),
+                         'restauracje-list': reverse(RestauracjeList.name, request=request),
                          'produkty-list': reverse(ProduktyList.name, request=request),
-                         'adresyrestouracji-list': reverse(AdresyRestouracjiList.name, request=request)
+                         'adresyrestauracji-list': reverse(AdresyRestauracjiList.name, request=request)
 
 })
 
