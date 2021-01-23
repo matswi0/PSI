@@ -20,6 +20,9 @@ class Klienci(models.Model):
     dane_kontaktowe_id = models.ForeignKey(DaneKontaktowe, related_name='klienci', on_delete=models.CASCADE)
     adres_dostawy_id = models.ForeignKey(AdresDostawy, related_name='klienci', on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ('nazwisko',)
+
     def __str__(self):
         return self.imie+' '+self.nazwisko
 

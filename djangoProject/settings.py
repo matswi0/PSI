@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'jedzenieonline.apps.JedzenieonlineConfig',
+    'django_filters',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -127,13 +128,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ],
-    'DEFAULT_FILTER_BACKENDS': [
+    'DEFAULT_PAGINATION_CLASS':
+        'jedzenieonline.custompagination.LimitOffsetPaginationWithUpperBound',
+    'PAGE_SIZE': 5,
+    'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.OrderingFilter',
-        'rest_framework.filters.SearchFilter',
-    ],
+        'rest_framework.filters.SearchFilter'
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
 }
 

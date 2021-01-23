@@ -18,7 +18,7 @@ class KlienciSerializer(serializers.HyperlinkedModelSerializer):
     #adresy_dostawy = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='adresdostawy-detail')
     class Meta:
         model = Klienci
-        fields = ['imie', 'nazwisko']
+        fields = '__all__'
 
 
 class AdresyZamieszkaniaSerializer(serializers.ModelSerializer):

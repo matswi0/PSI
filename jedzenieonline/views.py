@@ -9,8 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Zarobki, StatusDostawcy, Dostawcy, DanePlatnosci, Zamowienia, Restouracje, Produkty, AdresyRestouracji
 from .serializers import DaneKontaktoweSerializer, AdresDostawySerializer, KlienciSerializer, AdresyZamieszkaniaSerializer, ZarobkiSerializer, StatusDostawcySerializer, DostawcySerializer, DanePlatnosciSerializer, ZamowieniaSerializer, RestouracjeSerializer, ProduktySerializer, AdresyRestouracjiSerializer
-
-
+from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet, BooleanFilter
 
 
 
@@ -43,6 +42,9 @@ class AdresDostawyList(generics.ListCreateAPIView):
     queryset = AdresDostawy.objects.all()
     serializer_class = AdresDostawySerializer
     name = 'adresdostawy-list'
+    filterset_fields = ['miejscowosc', 'ulica']
+    search_fields = ['miejscowosc', 'ulica']
+    ordering_fields = ['miejscowosc', 'ulica']
 
 class AdresDostawyDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AdresDostawy.objects.all()
@@ -51,10 +53,15 @@ class AdresDostawyDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # KlienciView
+
 class KlienciList(generics.ListCreateAPIView):
     queryset = Klienci.objects.all()
     serializer_class = KlienciSerializer
     name = 'klienci-list'
+    filterset_fields = ['nazwisko', 'imie']
+    search_fields = ['nazwisko', 'imie']
+    ordering_fields = ['nazwisko', 'imie']
+
 
 
 class KlienciDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -62,12 +69,14 @@ class KlienciDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = KlienciSerializer
     name = 'klienci-detail'
 
-
 # AdresyZamieszkaniaView
 class AdresyZamieszkaniaList(generics.ListCreateAPIView):
     queryset = AdresyZamieszkania.objects.all()
     serializer_class = AdresyZamieszkaniaSerializer
     name = 'adresyzamieszkania-list'
+    filterset_fields = ['miejscowosc', 'ulica']
+    search_fields = ['miejscowosc', 'ulica']
+    ordering_fields = ['miejscowosc', 'ulica']
 
 
 class AdresyZamieszkaniaDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -77,11 +86,20 @@ class AdresyZamieszkaniaDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # ZarobkiView
+class ZarobkiFilter(FilterSet):
+    od_okres = DateTimeFilter(field_name='okres_od', lookup_expr='gte')
+    do_okres = DateTimeFilter(field_name='okres_do', lookup_expr='lte')
+
+    class Meta:
+        model = Zarobki
+        fields = ['od_okres', 'do_okres']
+
 class ZarobkiList(generics.ListCreateAPIView):
     queryset = Zarobki.objects.all()
     serializer_class = ZarobkiSerializer
     name = 'zarobki-list'
-
+    filter_class = ZarobkiFilter
+    ordering_fields = ['przepracowane_godziny']
 
 class ZarobkiDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Zarobki.objects.all()
@@ -90,10 +108,19 @@ class ZarobkiDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # StatusDostawcyView
+
+class StatusDostawcyFilter(FilterSet):
+    dostepnosc = BooleanFilter(field_name='dostepnosc_dostawcy', lookup_expr='iexact')
+
+    class Meta:
+        model = StatusDostawcy
+        fields = ['dostepnosc']
+
 class StatusDostawcyList(generics.ListCreateAPIView):
     queryset = StatusDostawcy.objects.all()
     serializer_class = StatusDostawcySerializer
     name = 'statusdostawcy-list'
+    filter_class = StatusDostawcyFilter
 
 
 class StatusDostawcyDetail(generics.RetrieveUpdateDestroyAPIView):
