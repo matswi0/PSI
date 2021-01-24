@@ -8,11 +8,20 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Zarobki, StatusDostawcy, Dostawcy, DanePlatnosci, Zamowienia, Restauracje, Produkty, AdresyRestauracji
-from .serializers import DaneKontaktoweSerializer, AdresDostawySerializer, KlienciSerializer, AdresyZamieszkaniaSerializer, ZarobkiSerializer, StatusDostawcySerializer, DostawcySerializer, DanePlatnosciSerializer, ZamowieniaSerializer, RestauracjeSerializer, ProduktySerializer, AdresyRestauracjiSerializer
+from .serializers import DaneKontaktoweSerializer, AdresDostawySerializer, KlienciSerializer, AdresyZamieszkaniaSerializer, ZarobkiSerializer, StatusDostawcySerializer, DostawcySerializer, DanePlatnosciSerializer, ZamowieniaSerializer, RestauracjeSerializer, ProduktySerializer, AdresyRestauracjiSerializer, UserSerializer
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet
+from django.contrib.auth.models import User
 
+# UserView
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    name = 'user-list'
 
-
+class UserDetail(generics.RetrieveDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    name = 'user-detail'
 
 # DaneKontaktoweView
 class DaneKontaktoweList(generics.ListCreateAPIView):
@@ -52,7 +61,6 @@ class AdresDostawyDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # KlienciView
-
 class KlienciList(generics.ListCreateAPIView):
     queryset = Klienci.objects.all()
     serializer_class = KlienciSerializer
@@ -60,7 +68,8 @@ class KlienciList(generics.ListCreateAPIView):
     filterset_fields = ['nazwisko', 'imie']
     search_fields = ['nazwisko', 'imie']
     ordering_fields = ['nazwisko', 'imie']
-
+    def perform_create(self, serializer):
+        serializer.save(wlasciciel=self.request.user)
 
 
 class KlienciDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -88,7 +97,7 @@ class AdresyZamieszkaniaDetail(generics.RetrieveUpdateDestroyAPIView):
 class ZarobkiFilter(FilterSet):
     od_okres = DateTimeFilter(field_name='okres_od', lookup_expr='gte')
     do_okres = DateTimeFilter(field_name='okres_do', lookup_expr='lte')
-
+    queryset = AdresyZamieszkania.objects.all()
     class Meta:
         model = Zarobki
         fields = ['od_okres', 'do_okres']
@@ -208,7 +217,8 @@ class ProduktyList(generics.ListCreateAPIView):
     serializer_class = ProduktySerializer
     name = 'produkty-list'
     filter_class = ProduktyFilter
-
+    def perform_create(self, serializer):
+        serializer.save(wlasciciel=self.request.user)
 
 class ProduktyDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Produkty.objects.all()
@@ -227,7 +237,7 @@ class AdresyRestauracjiFilter(FilterSet):
 class AdresyRestauracjiList(generics.ListCreateAPIView):
     queryset = AdresyRestauracji.objects.all()
     serializer_class = AdresyRestauracjiSerializer
-    name = 'adresyrestauracji-list'
+    name = 'adresyrestaouracji-list'
     filter_class = AdresyRestauracjiFilter
 
 
@@ -254,7 +264,8 @@ class ApiRoot(generics.GenericAPIView):
                          'zamowienia-list': reverse(ZamowieniaList.name, request=request),
                          'restauracje-list': reverse(RestauracjeList.name, request=request),
                          'produkty-list': reverse(ProduktyList.name, request=request),
-                         'adresyrestauracji-list': reverse(AdresyRestauracjiList.name, request=request)
+                         'adresyrestauracji-list': reverse(AdresyRestauracjiList.name, request=request),
+                         'user-list': reverse(UserList.name, request=request)
 
 })
 

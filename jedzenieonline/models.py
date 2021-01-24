@@ -4,7 +4,6 @@ class DaneKontaktowe(models.Model):
     numer_telefonu = models.CharField(max_length=9, null=False)
     adres_mailowy = models.EmailField(max_length=45, null=False)
     fax = models.CharField(max_length=7, null=True)
-
     def __str__(self):
         return self.numer_telefonu
 
@@ -17,7 +16,7 @@ class AdresDostawy(models.Model):
     numer_lokalu = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.miejscowosc + ' ' +self.ulica + ' ' +str(self.numer_domu) + ' / ' + str(self.numer_lokalu)
+        return self.miejscowosc + ' ' + self.ulica + ' ' + str(self.numer_domu) + ' / ' + str(self.numer_lokalu)
 
 
 class Klienci(models.Model):
@@ -25,7 +24,7 @@ class Klienci(models.Model):
     nazwisko = models.CharField(max_length=45, null=False)
     dane_kontaktowe_id = models.ForeignKey(DaneKontaktowe, related_name='klienci', on_delete=models.CASCADE)
     adres_dostawy_id = models.ForeignKey(AdresDostawy, related_name='klienci', on_delete=models.CASCADE)
-
+    wlasciciel = models.ForeignKey('auth.User', related_name='klienci', on_delete=models.CASCADE)
     class Meta:
         ordering = ('nazwisko',)
 
@@ -64,7 +63,7 @@ class StatusDostawcy(models.Model):
     dostepnosc_dostawcy = models.BooleanField()
 
     def __str__(self):
-        return self.dostepnosc_dostawcy
+        return str(self.dostepnosc_dostawcy)
 
 
 class Dostawcy(models.Model):
@@ -118,7 +117,10 @@ class Produkty(models.Model):
     nazwa_produktu = models.CharField(max_length=45, null=False)
     cena = models.DecimalField(max_digits=14, decimal_places=2)
     restauracja_id = models.ForeignKey(Restauracje, related_name='produkty', on_delete=models.CASCADE)
+    wlasciciel = models.ForeignKey('auth.User', related_name='produkty', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nazwa_produktu
 
 class AdresyRestauracji(models.Model):
     miejscowosc = models.CharField(max_length=45, null=False)

@@ -1,5 +1,25 @@
 from rest_framework import serializers, permissions
 from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Zarobki, StatusDostawcy, Dostawcy, DanePlatnosci, Zamowienia, Restauracje, Produkty, AdresyRestauracji
+from django.contrib.auth.models import User
+
+class UserKlientSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Klienci
+        fields = ['url', 'imie', 'nazwisko']
+
+class UserProduktSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Produkty
+        fields = ['url', 'nazwa_produktu']
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    klienci = UserKlientSerializer(many=True, read_only=True)
+    produkty = UserProduktSerializer(many=True, read_only=True)
+    class Meta:
+        model = User
+        fields = ('url', 'pk', 'username', 'klienci', 'produkty')
+
 
 
 class DaneKontaktoweSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,6 +41,7 @@ class KlienciSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField(read_only=True)
     adres_dostawy_id  =serializers.SlugRelatedField(queryset=AdresDostawy.objects.all(), slug_field='miejscowosc')
     dane_kontaktowe_id = serializers.SlugRelatedField(queryset=DaneKontaktowe.objects.all(), slug_field='numer_telefonu')
+    wlasciciel = serializers.ReadOnlyField(source='wlasciciel.username')
     class Meta:
         model = Klienci
         fields = '__all__'
@@ -77,6 +98,7 @@ class RestauracjeSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 class ProduktySerializer(serializers.HyperlinkedModelSerializer):
+    wlasciciel = serializers.ReadOnlyField(source='wlasciciel.username')
     class Meta:
         model = Produkty
         fields = '__all__'

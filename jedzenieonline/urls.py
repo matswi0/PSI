@@ -52,8 +52,9 @@ urlpatterns = [
     path('adresyrestauracji-list', views.AdresyRestauracjiList.as_view(), name=views.AdresyRestauracjiList.name),
     path('adresyrestauracji-detail/<int:pk>', views.AdresyRestauracjiDetail.as_view(), name=views.AdresyRestauracjiDetail.name),
 
-
-
+    # UserURL
+    path('user-list', views.UserList.as_view(), name=views.UserList.name),
+    path('user-detail/<int:pk>', views.UserDetail.as_view(), name=views.UserDetail.name),
 
 
     path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
