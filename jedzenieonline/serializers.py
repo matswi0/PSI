@@ -63,7 +63,6 @@ class DostawcySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DanePlatnosciSerializer(serializers.HyperlinkedModelSerializer):
-    klienci_id = serializers.SlugRelatedField(queryset=Klienci.objects.all(), slug_field='nazwisko')
     class Meta:
         model = DanePlatnosci
         fields = '__all__'
@@ -71,15 +70,15 @@ class DanePlatnosciSerializer(serializers.HyperlinkedModelSerializer):
 
 class ZamowieniaSerializer(serializers.HyperlinkedModelSerializer):
     dostawcy_id = serializers.SlugRelatedField(queryset=Dostawcy.objects.all(), slug_field='pesel')
-    dane_platnosci_id = serializers.SlugRelatedField(queryset=DanePlatnosci.objects.all(), slug_field='data_platnosci')
+
     class Meta:
         model = Zamowienia
         fields = '__all__'
 
 
 class RestauracjeSerializer(serializers.HyperlinkedModelSerializer):
+    adresy_restauracji = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='adresyrestauracji-detail')
     produkty = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='produkty-detail')
-    adresy_restauracji = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='adresy_restauracji-detail')
     class Meta:
         model = Restauracje
         fields = '__all__'

@@ -71,6 +71,7 @@ class DanePlatnosci(models.Model):
 
 
 class Zamowienia(models.Model):
+    klient_id = models.ForeignKey(Klienci, related_name='zamowienia', on_delete=models.CASCADE)
     dostawcy_id = models.ForeignKey(Dostawcy, related_name='zamowienia', on_delete=models.CASCADE)
     dane_platnosci_id = models.ForeignKey(DanePlatnosci, related_name='zamowienia', on_delete=models.CASCADE)
     status_zamowienia = models.BooleanField(null=False)

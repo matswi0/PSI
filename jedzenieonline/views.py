@@ -17,11 +17,19 @@ class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     name = 'user-list'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 class UserDetail(generics.RetrieveDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     name = 'user-detail'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE', 'PATCH']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 # DaneKontaktoweView
 class DaneKontaktoweList(generics.ListCreateAPIView):
@@ -53,11 +61,19 @@ class AdresDostawyList(generics.ListCreateAPIView):
     filterset_fields = ['miejscowosc', 'ulica']
     search_fields = ['miejscowosc', 'ulica']
     ordering_fields = ['miejscowosc', 'ulica']
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 class AdresDostawyDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AdresDostawy.objects.all()
     serializer_class = AdresDostawySerializer
     name = 'adresdostawy-detail'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 # KlienciView
@@ -71,11 +87,20 @@ class KlienciList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(wlasciciel=self.request.user)
 
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
+
 
 class KlienciDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Klienci.objects.all()
     serializer_class = KlienciSerializer
     name = 'klienci-detail'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE', 'PATCH']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 # AdresyZamieszkaniaView
 class AdresyZamieszkaniaList(generics.ListCreateAPIView):
@@ -85,12 +110,20 @@ class AdresyZamieszkaniaList(generics.ListCreateAPIView):
     filterset_fields = ['miejscowosc', 'ulica']
     search_fields = ['miejscowosc', 'ulica']
     ordering_fields = ['miejscowosc', 'ulica']
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 class AdresyZamieszkaniaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AdresyZamieszkania.objects.all()
     serializer_class = AdresyZamieszkaniaSerializer
     name = 'adresyzamieszkania-detail'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 # DostawcyView
@@ -98,12 +131,20 @@ class DostawcyList(generics.ListCreateAPIView):
     queryset = Dostawcy.objects.all()
     serializer_class = DostawcySerializer
     name = 'dostawcy-list'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 class DostawcyDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Dostawcy.objects.all()
     serializer_class = DostawcySerializer
     name = 'dostawcy-detail'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE', 'PATCH']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 # DanePlatnosciView
@@ -120,13 +161,21 @@ class DanePlatnosciList(generics.ListCreateAPIView):
     serializer_class = DanePlatnosciSerializer
     name = 'daneplatnosci-list'
     filter_class = DanePlatnosciFilter
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 
 class DanePlatnosciDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = DanePlatnosci.objects.all()
     serializer_class = DanePlatnosciSerializer
-    name = 'daneplantosci-detail'
+    name = 'daneplatnosci-detail'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE', 'PATCH']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 # ZamowieniaView
@@ -134,12 +183,20 @@ class ZamowieniaList(generics.ListCreateAPIView):
     queryset = Zamowienia.objects.all()
     serializer_class = ZamowieniaSerializer
     name = 'zamowienia-list'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 class ZamowieniaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Zamowienia.objects.all()
     serializer_class = ZamowieniaSerializer
     name = 'zamowienia-detail'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 # RestauracjeView
@@ -150,12 +207,20 @@ class RestauracjeList(generics.ListCreateAPIView):
     filterset_fields = ['nazwa_restauracji']
     search_fields = ['nazwa_restauracji']
     ordering_fields = ['nazwa_restauracji']
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 class RestauracjeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Restauracje.objects.all()
     serializer_class = RestauracjeSerializer
     name = 'restauracje-detail'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 # ProduktyView
@@ -176,10 +241,19 @@ class ProduktyList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(wlasciciel=self.request.user)
 
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
+
 class ProduktyDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Produkty.objects.all()
     serializer_class = ProduktySerializer
     name = 'produkty-detail'
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 # AdresyRestauracjiView
@@ -195,6 +269,10 @@ class AdresyRestauracjiList(generics.ListCreateAPIView):
     serializer_class = AdresyRestauracjiSerializer
     name = 'adresyrestauracji-list'
     filter_class = AdresyRestauracjiFilter
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'PATCH', 'POST', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 class AdresyRestauracjiDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -204,6 +282,10 @@ class AdresyRestauracjiDetail(generics.RetrieveUpdateDestroyAPIView):
     filterset_fields = ['miejscowosc', 'ulica']
     search_fields = ['miejscowosc', 'ulica']
     ordering_fields = ['miejscowosc', 'ulica']
+    def get_permissions(self):
+        if self.request.method in ['PUT', 'DELETE']:
+            return [permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
 
 class ApiRoot(generics.GenericAPIView):

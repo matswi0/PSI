@@ -26,7 +26,7 @@ urlpatterns = [
 
     # DanePlatnosciURL
     path('daneplatnosci-list', views.DanePlatnosciList.as_view(), name=views.DanePlatnosciList.name),
-    path('daneplatnosci-detail/<int:pk>', views.DanePlatnosciDetail.as_view(), name=views.DanePlatnosciDetail.name),
+    path('daneplantosci-detail/<int:pk>', views.DanePlatnosciDetail.as_view(), name=views.DanePlatnosciDetail.name),
 
     # ZamowieniaURL
     path('zamowienia-list', views.ZamowieniaList.as_view(), name=views.ZamowieniaList.name),
