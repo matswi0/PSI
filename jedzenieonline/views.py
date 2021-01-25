@@ -7,8 +7,8 @@ from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Zarobki, StatusDostawcy, Dostawcy, DanePlatnosci, Zamowienia, Restauracje, Produkty, AdresyRestauracji
-from .serializers import DaneKontaktoweSerializer, AdresDostawySerializer, KlienciSerializer, AdresyZamieszkaniaSerializer, ZarobkiSerializer, StatusDostawcySerializer, DostawcySerializer, DanePlatnosciSerializer, ZamowieniaSerializer, RestauracjeSerializer, ProduktySerializer, AdresyRestauracjiSerializer, UserSerializer
+from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Dostawcy, DanePlatnosci, Zamowienia, Restauracje, Produkty, AdresyRestauracji
+from .serializers import DaneKontaktoweSerializer, AdresDostawySerializer, KlienciSerializer, AdresyZamieszkaniaSerializer, DostawcySerializer, DanePlatnosciSerializer, ZamowieniaSerializer, RestauracjeSerializer, ProduktySerializer, AdresyRestauracjiSerializer, UserSerializer
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet
 from django.contrib.auth.models import User
 
@@ -91,50 +91,6 @@ class AdresyZamieszkaniaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AdresyZamieszkania.objects.all()
     serializer_class = AdresyZamieszkaniaSerializer
     name = 'adresyzamieszkania-detail'
-
-
-# ZarobkiView
-class ZarobkiFilter(FilterSet):
-    od_okres = DateTimeFilter(field_name='okres_od', lookup_expr='gte')
-    do_okres = DateTimeFilter(field_name='okres_do', lookup_expr='lte')
-    queryset = AdresyZamieszkania.objects.all()
-    class Meta:
-        model = Zarobki
-        fields = ['od_okres', 'do_okres']
-
-class ZarobkiList(generics.ListCreateAPIView):
-    queryset = Zarobki.objects.all()
-    serializer_class = ZarobkiSerializer
-    name = 'zarobki-list'
-    filter_class = ZarobkiFilter
-    ordering_fields = ['przepracowane_godziny']
-
-class ZarobkiDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Zarobki.objects.all()
-    serializer_class = ZarobkiSerializer
-    name = 'zarobki-detail'
-
-
-# StatusDostawcyView
-
-class StatusDostawcyFilter(FilterSet):
-    dostepnosc = AllValuesFilter(field_name='dostepnosc_dostawcy')
-    class Meta:
-        model = StatusDostawcy
-        fields = ['dostepnosc_dostawcy']
-
-class StatusDostawcyList(generics.ListCreateAPIView):
-    queryset = StatusDostawcy.objects.all()
-    serializer_class = StatusDostawcySerializer
-    name = 'statusdostawcy-list'
-    filter_class = StatusDostawcyFilter
-    ordering_fields = ['data_zatrudnienia', 'data_zwolnienia']
-
-
-class StatusDostawcyDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = StatusDostawcy.objects.all()
-    serializer_class = StatusDostawcySerializer
-    name = 'statusdostawcy-detail'
 
 
 # DostawcyView
@@ -237,7 +193,7 @@ class AdresyRestauracjiFilter(FilterSet):
 class AdresyRestauracjiList(generics.ListCreateAPIView):
     queryset = AdresyRestauracji.objects.all()
     serializer_class = AdresyRestauracjiSerializer
-    name = 'adresyrestaouracji-list'
+    name = 'adresyrestauracji-list'
     filter_class = AdresyRestauracjiFilter
 
 
@@ -257,8 +213,6 @@ class ApiRoot(generics.GenericAPIView):
                          'adresdostawy-list': reverse(AdresDostawyList.name, request=request),
                          'klienci-list': reverse(KlienciList.name, request=request),
                          'adresyzamieszkania-list': reverse(AdresyZamieszkaniaList.name, request=request),
-                         'zarobki-list': reverse(ZarobkiList.name, request=request),
-                         'statusdostawcy-list': reverse(StatusDostawcyList.name, request=request),
                          'dostawcy-list': reverse(DostawcyList.name, request=request),
                          'daneplatnosci-list': reverse(DanePlatnosciList.name, request=request),
                          'zamowienia-list': reverse(ZamowieniaList.name, request=request),

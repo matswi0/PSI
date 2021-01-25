@@ -20,14 +20,6 @@ urlpatterns = [
     path('adresyzamieszkania-list', views.AdresyZamieszkaniaList.as_view(), name=views.AdresyZamieszkaniaList.name),
     path('adresyzamieszkania-detail/<int:pk>', views.AdresyZamieszkaniaDetail.as_view(), name=views.AdresyZamieszkaniaDetail.name),
 
-    # ZarobkiURL
-    path('zarobki-list', views.ZarobkiList.as_view(), name=views.ZarobkiList.name),
-    path('zarobki-detail/<int:pk>', views.ZarobkiDetail.as_view(), name=views.ZarobkiDetail.name),
-
-    # StatusDostawcyURL
-    path('statusdostawcy-list', views.StatusDostawcyList.as_view(), name=views.StatusDostawcyList.name),
-    path('statusdostawcy-detail/<int:pk>', views.StatusDostawcyDetail.as_view(), name=views.StatusDostawcyDetail.name),
-
     # DostawcyURL
     path('dostawcy-list', views.DostawcyList.as_view(), name=views.DostawcyList.name),
     path('dostawcy-detail/<int:pk>', views.DostawcyDetail.as_view(), name=views.DostawcyDetail.name),

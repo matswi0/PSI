@@ -1,5 +1,5 @@
 from rest_framework import serializers, permissions
-from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Zarobki, StatusDostawcy, Dostawcy, DanePlatnosci, Zamowienia, Restauracje, Produkty, AdresyRestauracji
+from .models import DaneKontaktowe, AdresDostawy, Klienci, AdresyZamieszkania, Dostawcy, DanePlatnosci, Zamowienia, Restauracje, Produkty, AdresyRestauracji
 from django.contrib.auth.models import User
 
 class UserKlientSerializer(serializers.HyperlinkedModelSerializer):
@@ -54,24 +54,9 @@ class AdresyZamieszkaniaSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class ZarobkiSerializer(serializers.HyperlinkedModelSerializer):
-    dostawcy = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='dostawcy-detail')
-    class Meta:
-        model = Zarobki
-        fields = '__all__'
-
-
-class StatusDostawcySerializer(serializers.HyperlinkedModelSerializer):
-    dostawcy = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='dostawcy-detail')
-    class Meta:
-        model = StatusDostawcy
-        fields = '__all__'
-
 class DostawcySerializer(serializers.HyperlinkedModelSerializer):
     dane_kontaktowe_id = serializers.SlugRelatedField(queryset=DaneKontaktowe.objects.all(), slug_field='numer_telefonu')
     adresy_zamieszkania_id = serializers.SlugRelatedField(queryset=AdresyZamieszkania.objects.all(), slug_field='miejscowosc')
-    status_dostawcy_id = serializers.SlugRelatedField(queryset=StatusDostawcy.objects.all(), slug_field='dostepnosc_dostawcy')
-    zarobki_id = serializers.SlugRelatedField(queryset=Zarobki.objects.all(), slug_field='stawka_godzinowa')
     class Meta:
         model = Dostawcy
         fields = '__all__'
@@ -93,18 +78,22 @@ class ZamowieniaSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RestauracjeSerializer(serializers.HyperlinkedModelSerializer):
+    produkty = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='produkty-detail')
+    adresy_restauracji = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='adresy_restauracji-detail')
     class Meta:
         model = Restauracje
         fields = '__all__'
 
 class ProduktySerializer(serializers.HyperlinkedModelSerializer):
     wlasciciel = serializers.ReadOnlyField(source='wlasciciel.username')
+    restauracja_id = serializers.SlugRelatedField(queryset=Restauracje.objects.all(), slug_field='nazwa_restauracji')
     class Meta:
         model = Produkty
         fields = '__all__'
 
 
 class AdresyRestauracjiSerializer(serializers.HyperlinkedModelSerializer):
+    restauracja_id = serializers.SlugRelatedField(queryset=Restauracje.objects.all(), slug_field='nazwa_restauracji')
     class Meta:
         model = AdresyRestauracji
         fields = '__all__'
